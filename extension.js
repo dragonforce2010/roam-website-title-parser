@@ -6,7 +6,6 @@ const pasteListener = (event) => {
   if (!CheckUrlFormat(url)) return;
 
   currentUrlFromPaste = url;
-  console.log('get data from paste event: ', currentUrlFromPaste);
 
   setTimeout(() => {
     parseWebsiteUrlTitle(currentUrlFromPaste);
@@ -37,7 +36,6 @@ const getBlockContent = (uid) => {
 
 const updateCurrentBlockUrlFormat = (urlWithMarkdownFormat) => {
   let uid = window.roamAlphaAPI.ui.getFocusedBlock()?.['block-uid'];
-  console.log('get uid:', uid)
   const originalContent = getBlockContent(uid);
 
   // const replaceBegin = originalContent.indexOf(currentUrlFromPaste)
@@ -46,9 +44,6 @@ const updateCurrentBlockUrlFormat = (urlWithMarkdownFormat) => {
     currentUrlFromPaste,
     urlWithMarkdownFormat
   );
-  console.log(
-    'new content:', newContent
-  )
 
   window.roamAlphaAPI.updateBlock({
     block: { uid: uid, string: newContent },
@@ -61,8 +56,6 @@ const updateCurrentBlockUrlFormat = (urlWithMarkdownFormat) => {
     );
   }, 100);
 
-  console.log('originalContent:', originalContent)};
-
 // actions that are predefined save there state automatically (except button) underneath the id provided for the action
 // custom actions can save state with extensionAPI.settings.set / get / getAll
 function onunload() {
@@ -70,8 +63,6 @@ function onunload() {
 }
 
 function onload({ extensionAPI, ...rest }) {
-  window.extensionAPI = extensionAPI;
-  console.log(extensionAPI, rest);
   window.addEventListener('paste', pasteListener);
 }
 
