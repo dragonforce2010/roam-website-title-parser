@@ -55,6 +55,7 @@ const updateCurrentBlockUrlFormat = (urlWithMarkdownFormat) => {
       document.activeElement.value.length
     );
   }, 100);
+}
 
 // actions that are predefined save there state automatically (except button) underneath the id provided for the action
 // custom actions can save state with extensionAPI.settings.set / get / getAll
@@ -69,4 +70,4 @@ function onload({ extensionAPI, ...rest }) {
 export default {
   onload: onload,
   onunload: onunload,
-};
+}
