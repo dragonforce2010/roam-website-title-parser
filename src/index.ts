@@ -2,8 +2,8 @@ import getUids from "roamjs-components/dom/getUids";
 import 'roamjs-components/types'
 
 let currentUrlFromPaste = '';
-// let serviceUrl = 'https://ec2-18-141-200-240.ap-southeast-1.compute.amazonaws.com'
-let serviceUrl = 'http://localhost:3000/api'
+let serviceUrl = 'https://ec2-18-141-200-240.ap-southeast-1.compute.amazonaws.com'
+// let serviceUrl = 'http://localhost:3000/api'
 
 const pasteListener = (event:ClipboardEvent) => {
   const url = event.clipboardData.getData('text');
