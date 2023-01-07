@@ -5,6 +5,10 @@ let currentUrlFromPaste = '';
 let serviceUrl = 'https://ec2-54-254-24-184.ap-southeast-1.compute.amazonaws.com'
 // let serviceUrl = 'http://localhost:3000/api'
 
+// parseWebsiteTitleFromUrl need to be changed to parse-url-title
+let parseUrlTitileApi = 'parseWebsiteTitleFromUrl'
+// let parseUrlTitileApi = 'parseWebsiteTitleFromUrl'
+
 const pasteListener = (event:ClipboardEvent) => {
   const url = event.clipboardData.getData('text');
   if (!CheckUrlFormat(url)) return;
@@ -26,7 +30,7 @@ const CheckUrlFormat = (url: string) => {
 const parseWebsiteUrlTitle = async (url:string) => {
   if (!url) return;
 
-  const resp = await fetch(`${serviceUrl}/parse-url-title?url=${url}`);
+  const resp = await fetch(`${serviceUrl}/${parseUrlTitileApi}?url=${url}`);
   const data = await resp.json();
   const { websiteTitle } = data;
   let urlWithMarkdownFormat = `[${websiteTitle}](${url})`;
