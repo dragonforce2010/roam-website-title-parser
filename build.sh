@@ -1,1 +1,1 @@
-yarn & yarn build:roam
+npm run build:roam
