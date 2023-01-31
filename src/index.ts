@@ -1,7 +1,6 @@
 import getUids from "roamjs-components/dom/getUids";
 import 'roamjs-components/types'
 
-let currentUrlFromPaste = '';
 let serviceUrl = 'https://ec2-54-254-24-184.ap-southeast-1.compute.amazonaws.com'
 // let serviceUrl = 'http://localhost:3000/api'
 
@@ -9,48 +8,48 @@ let serviceUrl = 'https://ec2-54-254-24-184.ap-southeast-1.compute.amazonaws.com
 let parseUrlTitileApi = 'parseWebsiteTitleFromUrl'
 // let parseUrlTitileApi = 'parseWebsiteTitleFromUrl'
 
-const pasteListener = (event:ClipboardEvent) => {
-  const url = event.clipboardData.getData('text');
-  if (!CheckUrlFormat(url)) return;
-
-  currentUrlFromPaste = url;
+const pasteListener = (event: ClipboardEvent) => {
+  const pasteContent = event.clipboardData.getData('text');
+  const urls = GetUrlsFromString(pasteContent)
+  if (!urls || urls.length == 0) return;
 
   setTimeout(() => {
-    parseWebsiteUrlTitle(currentUrlFromPaste);
+    for (let url of urls) {
+      parseWebsiteUrlTitle(url);
+    }
   }, 800);
 };
 
-const CheckUrlFormat = (url: string) => {
-  // const matchPattern =
-    // /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\*\+,;=.]+$/;
-  const matchPattern = /((?!\]\().)+[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/ 
-  return matchPattern.test(url); // dummy
+const GetUrlsFromString = (str: string) => {
+  let urlRegex = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?/g;
+  const urls = str.match(urlRegex)
+  return urls
 };
 
-const parseWebsiteUrlTitle = async (url:string) => {
+const parseWebsiteUrlTitle = async (url: string) => {
   if (!url) return;
 
   const resp = await fetch(`${serviceUrl}/${parseUrlTitileApi}?url=${url}`);
   const data = await resp.json();
   const { websiteTitle } = data;
   let urlWithMarkdownFormat = `[${websiteTitle}](${url})`;
-  updateCurrentBlockUrlFormat(urlWithMarkdownFormat);
+  updateCurrentBlockUrlFormat(url, urlWithMarkdownFormat);
 };
 
 
-const getBlockContent = (uid:string) => {
+const getBlockContent = (uid: string) => {
   return (window.roamAlphaAPI.q(`[:find (pull ?page [:block/string])
-                      :where [?page :block/uid "${uid}"]  ]`)[0][0] as {string: string}).string;
+                      :where [?page :block/uid "${uid}"]  ]`)[0][0] as { string: string }).string;
 };
 
-const updateCurrentBlockUrlFormat = (urlWithMarkdownFormat:string) => {
+const updateCurrentBlockUrlFormat = (url: string, urlWithMarkdownFormat: string) => {
   let uid = window.roamAlphaAPI.ui.getFocusedBlock()?.['block-uid'];
   const originalContent = getBlockContent(uid);
 
   // const replaceBegin = originalContent.indexOf(currentUrlFromPaste)
   // const replaceEnd = originalContent.indexOf(currentUrlFromPaste) + currentUrlFromPaste.length
   const newContent = originalContent.replaceAll(
-    currentUrlFromPaste,
+    url,
     urlWithMarkdownFormat
   );
 
