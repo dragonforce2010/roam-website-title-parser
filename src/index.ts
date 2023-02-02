@@ -32,6 +32,8 @@ const parseWebsiteUrlTitle = async (url: string) => {
   const resp = await fetch(`${serviceUrl}/${parseUrlTitileApi}?url=${url}`);
   const data = await resp.json();
   const { websiteTitle } = data;
+  if (!websiteTitle) return
+
   let urlWithMarkdownFormat = `[${websiteTitle}](${url})`;
   updateCurrentBlockUrlFormat(url, urlWithMarkdownFormat);
 };
