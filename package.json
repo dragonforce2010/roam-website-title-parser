@@ -1,4 +1,6 @@
 {
+  "name": "power-link-parser",
+  "version": "1.0.0",
   "scripts": {
     "prebuild:roam": "npm install",
     "build:roam": "roamjs-scripts build --depot",
