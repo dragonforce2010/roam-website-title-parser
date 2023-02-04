@@ -1,5 +1,5 @@
-import getUids from "roamjs-components/dom/getUids";
-import 'roamjs-components/types'
+// import 'roamjs-components/types'
+import '../types'
 
 let serviceUrl = 'https://ec2-54-254-24-184.ap-southeast-1.compute.amazonaws.com'
 // let serviceUrl = 'http://localhost:3000/api'
@@ -50,7 +50,7 @@ const updateCurrentBlockUrlFormat = (url: string, urlWithMarkdownFormat: string)
 
   // const replaceBegin = originalContent.indexOf(currentUrlFromPaste)
   // const replaceEnd = originalContent.indexOf(currentUrlFromPaste) + currentUrlFromPaste.length
-  const newContent = originalContent.replaceAll(
+  const newContent = originalContent.replace(
     url,
     urlWithMarkdownFormat
   );
