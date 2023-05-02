@@ -1,12 +1,9 @@
 // import 'roamjs-components/types'
 import '../types'
+import axios from 'axios'
 
-let serviceUrl = 'https://ec2-54-254-24-184.ap-southeast-1.compute.amazonaws.com'
-// let serviceUrl = 'http://localhost:3000/api'
-
-// parseWebsiteTitleFromUrl need to be changed to parse-url-title
-let parseUrlTitileApi = 'parseWebsiteTitleFromUrl'
-// let parseUrlTitileApi = 'parseWebsiteTitleFromUrl'
+let serviceUrl = 'https://roam.12320.com'
+let parseUrlTitileApi = 'link/parseTitle'
 
 const pasteListener = (event: ClipboardEvent) => {
   const pasteContent = event.clipboardData.getData('text');
@@ -29,8 +26,8 @@ const GetUrlsFromString = (str: string) => {
 const parseWebsiteUrlTitle = async (url: string) => {
   if (!url) return;
 
-  const resp = await fetch(`${serviceUrl}/${parseUrlTitileApi}?url=${url}`);
-  const data = await resp.json();
+  const resp = await axios.post(`${serviceUrl}/${parseUrlTitileApi}`, { url: url });
+  const data = await resp.data;
   const { websiteTitle } = data;
   if (!websiteTitle) return
 
@@ -48,8 +45,6 @@ const updateCurrentBlockUrlFormat = (url: string, urlWithMarkdownFormat: string)
   let uid = window.roamAlphaAPI.ui.getFocusedBlock()?.['block-uid'];
   const originalContent = getBlockContent(uid);
 
-  // const replaceBegin = originalContent.indexOf(currentUrlFromPaste)
-  // const replaceEnd = originalContent.indexOf(currentUrlFromPaste) + currentUrlFromPaste.length
   const newContent = originalContent.replace(
     url,
     urlWithMarkdownFormat
@@ -68,8 +63,6 @@ const updateCurrentBlockUrlFormat = (url: string, urlWithMarkdownFormat: string)
   }, 100);
 }
 
-// actions that are predefined save there state automatically (except button) underneath the id provided for the action
-// custom actions can save state with extensionAPI.settings.set / get / getAll
 function onunload() {
   window.removeEventListener('paste', pasteListener);
 }
