@@ -3,7 +3,7 @@ import '../types'
 import axios from 'axios'
 
 let serviceUrl = 'https://roam.12320.com'
-let parseUrlTitileApi = 'link/parseTitle'
+let parseUrlTitileApi = 'powerlink/parseTitle'
 
 const pasteListener = (event: ClipboardEvent) => {
   const pasteContent = event.clipboardData.getData('text');
