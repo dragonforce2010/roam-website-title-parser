@@ -24,7 +24,11 @@ const GetUrlsFromString = (str: string) => {
 };
 
 const parseWebsiteUrlTitle = async (url: string) => {
-  if (!url) return;
+  if (!url ||
+    url.startsWith('https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com') ||
+    url.startsWith('https://roamresearch.com')) {
+    return
+  }
 
   const resp = await axios.post(`${serviceUrl}/${parseUrlTitileApi}`, { url: url });
   const data = await resp.data;
