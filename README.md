@@ -2,6 +2,12 @@
 
 A powerful Roam Research plugin that automatically converts URLs into markdown-formatted links with website titles.
 
+For example, when you paste a link like this `https://developer.roamjs.com/`, this extension is gonna transform it to [Introduction - RoamJS](https://developer.roamjs.com/)
+
+![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2FExploreSpace%2F6M92QAprUS.46.43.gif?alt=media&token=d3e4cc31-a676-4df6-a00c-1eee5cea7142)
+
+![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2FExploreSpace%2Fh7zMz5cuVI.gif?alt=media&token=1c6af938-c523-487d-b3cc-97d6ea8bb365)
+
 ## Features
 
 ### Core Functionality
@@ -46,7 +52,3 @@ A powerful Roam Research plugin that automatically converts URLs into markdown-f
 - URLs with query parameters
 - URLs with special characters
 - Most standard URL formats
-
-### Examples
-
-Before:
