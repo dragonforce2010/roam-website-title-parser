@@ -1,6 +1,4 @@
-import axios from 'axios';
 import { CONFIG } from '../config/constants';
-import { ParseResponse } from '../types';
 import { getBlockContent, updateBlock, updateCursorPosition } from '../utils/roam';
 import { isMarkdownUrl } from '../utils/url';
 
