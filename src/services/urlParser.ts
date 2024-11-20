@@ -4,6 +4,30 @@ import { ParseResponse } from '../types';
 import { getBlockContent, updateBlock, updateCursorPosition } from '../utils/roam';
 import { isMarkdownUrl } from '../utils/url';
 
+async function getWebsiteTitle(url: string): Promise<string> {
+  try {
+    // Fetch the HTML content of the URL
+    const response = await fetch(`https://us-central1-firescript-577a2.cloudfunctions.net/proxy-corsAnywhere/${url}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch: ${response.statusText}`);
+    }
+
+    // Get the text content of the response
+    const html = await response.text();
+
+    // Parse the HTML using DOMParser
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
+
+    // Get the <title> tag content
+    const title = doc.querySelector('title').innerText;
+    return title;
+  } catch (error) {
+    console.error("Error fetching the website title:", error);
+    return null;
+  }
+}
+
 export async function parseWebsiteUrlTitle(
   url: string, 
   blockUid: string, 
@@ -29,16 +53,14 @@ export async function parseWebsiteUrlTitle(
 
   for (let attempt = 0; attempt < CONFIG.RETRY_ATTEMPTS; attempt++) {
     try {
-      const resp = await axios.post<ParseResponse>(
-        `${CONFIG.SERVICE_URL}${CONFIG.PARSE_URL_API}?url=${encodeURIComponent(url)}`,
-        {},
-        {
-          timeout: CONFIG.REQUEST_TIMEOUT,
-          headers: { 'Content-Type': 'application/json' }
-        }
-      );
+      let websiteTitle;
+      try {
+        websiteTitle = await getWebsiteTitle(url);
+      } catch (e) {
+        // 如果获取标题失败，继续重试
+        continue;
+      }
 
-      const { websiteTitle } = resp.data;
       if (!websiteTitle) {
         processedUrls.add(taskKey);
         return;
