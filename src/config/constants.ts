@@ -1,6 +1,4 @@
 export const CONFIG = {
-  SERVICE_URL: 'https://roam.1866.tech',
-  PARSE_URL_API: '/api/parse-url',
   RETRY_ATTEMPTS: 3,
   RETRY_DELAY: 1000,
   OBSERVER_TIMEOUT: 30000,
